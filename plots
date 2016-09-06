@@ -1,0 +1,4 @@
+Plots:
+	- Bar plot of avg over/under ranking per entrant
+	- Time series of over/under by pick # per entrant (w/ average over/under by pick#)
+	- Bar plot of over/under by position
