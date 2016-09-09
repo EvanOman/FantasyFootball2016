@@ -29,3 +29,5 @@ df3$pickNum <- snakeIndices
 df4 <- as.data.frame(lapply(df3, unlist))
 
 df5 <- df4[order(df4$pickNum),]
+
+write.csv2(df5, "./reorderedDraft.csv")
