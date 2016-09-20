@@ -1,10 +1,13 @@
-library(reshape2)
+library("reshape2")
+library("plyr")
 
-df <- read.csv("./Draft.csv")
+rm(list=ls())
 
-df2 <- melt(df, id.vars = "ROUND")
+draftData <- read.csv("./Draft.csv")
 
-df3 <- df2[order(df2$ROUND), ]
+draftData <- melt(draftData, id.vars = "ROUND")
+
+draftData <- draftData[order(draftData$ROUND), ]
 
 # Creates the sequence: 1,2,3,4,5,6,7,8,16,15,14,13,12,11,10,9,17,18,19,20....
 snakeFunction <- function(i)
@@ -18,16 +21,18 @@ snakeFunction <- function(i)
     # Decreasing group
     else
     {
-        (8*groupIndicator) - (((i - 1) %% 8) + 1) + 1
+        8*groupIndicator - ((i - 1) %% 8)
     }
 }
 
 snakeIndices <- lapply(1:(16*8), snakeFunction)
 
-df3$pickNum <- snakeIndices
+draftData$pickNum <- snakeIndices
 
-df4 <- as.data.frame(lapply(df3, unlist))
+draftData <- as.data.frame(lapply(draftData, unlist))
 
-df5 <- df4[order(df4$pickNum),]
+draftData <- draftData[order(draftData$pickNum),]
 
-write.csv2(df5, "./reorderedDraft.csv")
+draftData <- rename(draftData, c("variable" = "Drafter", "value" = "Player", "pickNum" = "Pick #", "Round = ROUND"))
+
+# write.csv2(df5, "./reorderedDraft.csv")
