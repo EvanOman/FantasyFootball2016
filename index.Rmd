@@ -27,7 +27,7 @@ draftData <- read.csv("./Draft.csv")
 print.data.frame(head(draftData), row.names=FALSE)
 ```
 
-As you can see, the data is organized by round with a column for each drafter. This format is often refered to as a "wide dataset." For this analysis we want a "tall dataset" so we will use the "melt" fundtion to reorganize the data into one row per datapoint (ie one row per pick).
+As you can see, the data is organized by round with a column for each drafter. This format is often referred to as a "wide data-set." For this analysis we want a "tall data set" so we will use the "melt" function to reorganize the data into one row per data point (ie one row per pick).
 
 ```{r warning=FALSE}
 # Melt the data
@@ -91,7 +91,7 @@ espn <- read.csv("./ESPN_Rankings.csv")
 print.data.frame(head(espn, n=10), row.names=FALSE)
 ```
 
-This data set is already in the format we want so we can go ahead and join it with our draft data with a match by Player. Note that this is a left join by default so the resulting dataframe will only contain rows from our draft dataframe. Some players will have will not have an ESPN ranking. After the join these players will have a `NA` rank, we will replace this with the worst possible ranking (`nrow(espn)`) plus `1`.
+This data set is already in the format we want so we can go ahead and join it with our draft data with a match by Player. Note that this is a left join by default so the resulting dataframe will only contain rows from our draft dataframe. Note that some players will have will not have an ESPN ranking so after the join these players will have a `NA` rank. We will replace this with the worst possible ranking (`nrow(espn)`) plus `1`.
 
 ```{r}
 # Join espn rankings data with draft data 
@@ -115,7 +115,7 @@ At this point all of the data has been prepped so we are ready to generate some 
 
 ## Figures and Results
 
-Probably the most natural measure of performance would be to look at the average difference between pick number and rank, accross all rounds, organized by Drafter. We can calculate this using `aggregate`.
+Probably the most natural measure of performance would be to look at the average difference between pick number and rank, across all rounds, organized by Drafter. We can calculate this using `aggregate`.
 
 ```{r}
 avgDiffs <- aggregate(RankDiff ~ Drafter, joinedData, FUN=mean)
@@ -144,7 +144,7 @@ posDiffs <- aggregate(RankDiff ~ Pos, joinedData, FUN=mean)
 posDiffs <- within(posDiffs, Pos <- factor(Pos, levels=posDiffs[order(posDiffs$RankDiff), "Pos"]))
 
 # Order dataframe by worst draft to best
-posDiffs <- posDiffs[order(posDiffs$RankDiff, decreasing = TRUE),]
+posDiffs <- posDiffs[order(posDiffs$RankDiff, decreasing = FALSE),]
 
 print.data.frame(posDiffs, row.names=FALSE)
 
