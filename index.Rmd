@@ -169,8 +169,8 @@ It is pretty clear that as time goes on, worse and worse picks made.
 
 Finally I wanted to see how each drafter performed by round, the following figure accomplishes this.
 
-```{r, echo=FALSE}
-# Scatter colored by position 
+```{r}
+# Scatter colored by position, faceted by drafer
 ggplot(joinedData, aes(x=Round, y=RankDiff)) + geom_line() + facet_wrap(~Drafter, ncol=2) + geom_hline(yintercept = 0, linetype=2) + geom_point(aes(color=Pos)) + ylab("Difference Between Pick # and Ranking")
 ```
 
